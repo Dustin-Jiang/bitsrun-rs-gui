@@ -43,7 +43,7 @@ const props = defineProps({
   left: 0px;
   width: 100%;
   height: 100%;
-  background-color: #000000b0;
+  background-color: #eeeeeec0;
   border-radius: 8px;
   z-index: 100;
 }
@@ -125,6 +125,10 @@ input[type="checkbox"]:checked:active + span::after {
   .container {
     color: #ffffff;
     background-color: #0f0f0f98;
+  }
+
+  .disabled {
+    background-color: #000000b0;
   }
 }
 </style>
