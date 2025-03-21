@@ -16,7 +16,7 @@ jobs:
         run: curl -fsSL https://bun.sh/install | bash
 
       - name: Install Project Dependencies
-        run: bun install
+        run: ~/.bun/bin/bun install
 
       - name: Setup Rust Environment
         run: |
@@ -25,7 +25,7 @@ jobs:
           cargo install tauri-cli
 
       - name: Build Frontend
-        run: bun build
+        run: ~/.bun/bin/bun build
 
       - name: Build Tauri App
         run: cargo tauri build
@@ -50,7 +50,7 @@ jobs:
 
       - name: Install Dependencies
         shell: cmd
-        run: bun install
+        run: C:\Users\runneradmin\.bun\bin\bun.exe install
 
       - name: Setup Rust and Tauri CLI
         shell: pwsh
@@ -63,7 +63,7 @@ jobs:
           cargo install tauri-cli
 
       - name: Build Frontend
-        run: bun build
+        run: C:\Users\runneradmin\.bun\bin\bun.exe build
 
       - name: Build Tauri App
         run: cargo tauri build
@@ -88,7 +88,7 @@ jobs:
         run: curl -fsSL https://bun.sh/install | bash
 
       - name: Install Project Dependencies
-        run: bun install
+        run: ~/.bun/bin/bun install
 
       - name: Setup Rust Environment
         run: |
@@ -97,7 +97,7 @@ jobs:
           cargo install tauri-cli
 
       - name: Build Frontend
-        run: bun build
+        run: ~/.bun/bin/bun build
 
       - name: Build Tauri App
         run: cargo tauri build
