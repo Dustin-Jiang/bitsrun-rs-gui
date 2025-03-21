@@ -1,10 +1,11 @@
 <template>
   <div class="container">
+    <div v-if="props.disabled" class="disabled"></div>
     <span>
       <slot />
     </span>
-    <label for="toggle" class="root">
-      <input type="checkbox" id="toggle" v-model="model">
+    <label for="toggle" class="root" :disabled="props.disabled">
+      <input type="checkbox" id="toggle" v-model="model" :disabled="props.disabled">
       <span></span>
     </label>
   </div>
@@ -12,10 +13,17 @@
 
 <script lang="ts" setup>
 const model = defineModel({ type: Boolean })
+const props = defineProps({
+  disabled: {
+    type: Boolean,
+    default: false
+  }
+})
 </script>
 
 <style scoped>
 .container {
+  position: relative;
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em !important;
@@ -27,6 +35,17 @@ const model = defineModel({ type: Boolean })
   background-color: #ffffff;
   transition: border-color 0.25s;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.disabled {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #000000b0;
+  border-radius: 8px;
+  z-index: 100;
 }
 
 .root {
