@@ -131,7 +131,8 @@ button {
     background-color: #2f2f2f;
   }
 
-  input,
+  input[type="text"],
+  input[type="password"],
   button {
     color: #ffffff;
     background-color: #0f0f0f98;
