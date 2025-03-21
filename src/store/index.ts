@@ -14,6 +14,7 @@ interface Store {
     password: string;
     remember: boolean;
   };
+  keepOnline: boolean;
   initialized: boolean;
   status: NetworkStatus;
   netstat: SrunLoginState;
@@ -27,6 +28,7 @@ const store = reactive<Store>({
     password: localStore.userInfo?.password ?? "",
     remember: localStore.userInfo?.remember?? false,
   },
+  keepOnline: localStore.keepOnline ?? false,
   initialized: false,
   status: NetworkStatus.INIT,
   netstat: {} as SrunLoginState,

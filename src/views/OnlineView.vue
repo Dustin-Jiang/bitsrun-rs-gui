@@ -1,6 +1,9 @@
 <template>
   <NetStat />
   <div class="container">
+    <Checkbox v-model="store.keepOnline">
+      {{ i18n.t("keep_online") }}
+    </Checkbox>
     <button @click="logout">{{ i18n.t("logout") }}</button>
   </div>
 </template>
@@ -12,6 +15,8 @@ import I18n from "../model/i18n";
 import store, { NetworkStatus } from "../store";
 import { ApiResp } from "../model/api";
 import { getNetStat } from "../model/netstat";
+
+import Checkbox from "../components/Checkbox.vue";
 
 const i18n = I18n.getInstance();
 
@@ -44,6 +49,7 @@ async function logout() {
 .container {
   display: flex;
   gap: 0.5rem;
+  padding: 0.5rem 0;
 }
 </style>
 

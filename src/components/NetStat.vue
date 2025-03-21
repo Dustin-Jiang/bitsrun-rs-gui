@@ -76,7 +76,7 @@ td {
 }
 
 tr > td:first-child {
-  text-align: right;
+  /* text-align: right; */
   font-weight: bold;
 }
 

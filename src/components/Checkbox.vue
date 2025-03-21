@@ -15,6 +15,20 @@ const model = defineModel({ type: Boolean })
 </script>
 
 <style scoped>
+.container {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em !important;
+  box-sizing: border-box;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  color: #0f0f0f;
+  background-color: #ffffff;
+  transition: border-color 0.25s;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
 .root {
   --button-width: 50px;
   --button-height: 29.5px;
@@ -88,6 +102,10 @@ input[type="checkbox"]:checked:active + span::after {
 @media(prefers-color-scheme: dark) {
   span {
     background-color: var(--color-dark-grey);
+  }
+  .container {
+    color: #ffffff;
+    background-color: #0f0f0f98;
   }
 }
 </style>
