@@ -13,7 +13,7 @@
     "windows": [
       {
         "title": "bitsrun-rs-gui",
-        "width": 800,
+        "width": 400,
         "height": 600
       }
     ],

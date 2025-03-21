@@ -1,12 +1,13 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 use bitsrun::{client::get_login_state, SrunClient};
-use serde::{Deserialize, Serialize};
-use tokio::sync::Mutex;
-use tauri::State;
 use reqwest::Client;
+use serde::{Deserialize, Serialize};
+use tauri::State;
+use tokio::sync::Mutex;
 
 mod api;
 mod logout;
+mod tray;
 
 use crate::api::RunResult;
 
@@ -26,7 +27,10 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-async fn init_bitsrun(config: UserInfo, state: State<'_, BitsrunState>) -> Result<RunResult, String> {
+async fn init_bitsrun(
+    config: UserInfo,
+    state: State<'_, BitsrunState>,
+) -> Result<RunResult, String> {
     println!("init: {} {}", config.username, config.password);
     let client = SrunClient::new(config.username, config.password, None, None, None)
         .await
@@ -52,7 +56,7 @@ async fn login(state: State<'_, BitsrunState>) -> Result<RunResult, String> {
                 success: true,
                 message,
             })
-        },
+        }
         Err(e) => Ok(RunResult {
             success: false,
             message: e.to_string(),
@@ -67,12 +71,12 @@ async fn check_login_state() -> Result<RunResult, String> {
     match get_login_state(&http_client, true).await {
         Ok(resp) => Ok(RunResult {
             success: true,
-                message: serde_json::to_string(&resp).unwrap(),
-            }),
-            Err(e) => Ok(RunResult {
-                success: false,
-                message: e.to_string(),
-            }),
+            message: serde_json::to_string(&resp).unwrap(),
+        }),
+        Err(e) => Ok(RunResult {
+            success: false,
+            message: e.to_string(),
+        }),
     }
 }
 
@@ -80,6 +84,10 @@ async fn check_login_state() -> Result<RunResult, String> {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .setup(|app| {
+            tray::create_tray(app)?;
+            Ok(())
+        })
         .manage(BitsrunState {
             client: Mutex::new(None),
         })
@@ -90,6 +98,13 @@ pub fn run() {
             check_login_state,
             logout::logout
         ])
+        .on_window_event(|window, event| match event {
+          tauri::WindowEvent::CloseRequested { api, .. } => {
+            window.hide().unwrap();
+            api.prevent_close();
+          }
+          _ => {}
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
