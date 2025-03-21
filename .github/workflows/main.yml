@@ -1,0 +1,108 @@
+name: Multi-Platform Build and Release
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install Bun
+        run: curl -L https://bun.sh/install | bash -s -- -f
+
+      - name: Install Project Dependencies
+        run: bun install
+
+      - name: Setup Rust Environment
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source $HOME/.cargo/env
+          cargo install tauri-cli
+
+      - name: Build Frontend
+        run: bun build
+
+      - name: Build Tauri App
+        run: cargo tauri build
+
+      - name: Upload macOS Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-app
+          path: target/release/bundle/darwin/*.dmg
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Bun
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri https://bun.sh/install.ps1 -OutFile install.ps1
+          .\install.ps1 -f
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Setup Rust and Tauri CLI
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri https://sh.rustup.rs -OutFile rustup-init.sh
+          ./rustup-init.sh -y
+          rustup default stable
+          rustup component add rust-src
+          rustup target add x86_64-pc-windows-msvc
+          cargo install tauri-cli
+
+      - name: Build Frontend
+        run: bun build
+
+      - name: Build Tauri App
+        run: cargo tauri build
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-app
+          path: target/release/bundle/windows/*.exe
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.0-38 libclang-dev
+
+      - name: Install Bun
+        run: curl -L https://bun.sh/install | bash -s -- -f
+
+      - name: Install Project Dependencies
+        run: bun install
+
+      - name: Setup Rust Environment
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source $HOME/.cargo/env
+          cargo install tauri-cli
+
+      - name: Build Frontend
+        run: bun build
+
+      - name: Build Tauri App
+        run: cargo tauri build
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-app
+          path: target/release/bundle/tarball/*.tar.gz
