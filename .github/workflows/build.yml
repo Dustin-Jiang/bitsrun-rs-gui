@@ -27,6 +27,16 @@ jobs:
           source $HOME/.cargo/env
           cargo install tauri-cli
 
+      - name: Cache Rust dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo
+            ~/.rustup
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
       - name: Build Tauri App
         run: alias bun=~/.bun/bin/bun && bun run tauri build
 
@@ -68,6 +78,16 @@ jobs:
           rustup target add x86_64-pc-windows-msvc
           cargo install tauri-cli
 
+      - name: Cache Rust dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            C:\Users\runneradmin\.cargo
+            C:\Users\runneradmin\.rustup
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
       - name: Build Tauri App
         shell: pwsh
         run: Set-Alias bun C:\Users\runneradmin\.bun\bin\bun.exe && bun run tauri build
@@ -103,8 +123,18 @@ jobs:
           source $HOME/.cargo/env
           cargo install tauri-cli
 
+      - name: Cache Rust dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo
+            ~/.rustup
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
       - name: Build Tauri App
-        run: alias bun=~/.bun/bin/bun && bun run tauri build
+        run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build
 
       - name: Show All Artifacts
         run: ls -R target/release/bundle
