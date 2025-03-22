@@ -12,6 +12,14 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4.2.2
 
+      - name: Cache Rust dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo
+            ./target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Install Bun
         run: curl -fsSL https://bun.sh/install | bash
 
@@ -27,18 +35,8 @@ jobs:
           source $HOME/.cargo/env
           cargo install tauri-cli
 
-      - name: Cache Rust dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo
-            ~/.rustup
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
-
       - name: Build Tauri App
-        run: alias bun=~/.bun/bin/bun && bun run tauri build
+        run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build
 
       - name: Upload macOS Artifact
         uses: actions/upload-artifact@v4.6.2
@@ -51,6 +49,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
+
+      - name: Cache Rust dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            C:\Users\runneradmin\.cargo
+            .\target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install Bun
         shell: pwsh
@@ -78,16 +84,6 @@ jobs:
           rustup target add x86_64-pc-windows-msvc
           cargo install tauri-cli
 
-      - name: Cache Rust dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            C:\Users\runneradmin\.cargo
-            C:\Users\runneradmin\.rustup
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
-
       - name: Build Tauri App
         shell: pwsh
         run: Set-Alias bun C:\Users\runneradmin\.bun\bin\bun.exe && bun run tauri build
@@ -103,6 +99,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
+
+      - name: Cache Rust dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo
+            ./target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install Dependencies
         run: |
@@ -122,16 +126,6 @@ jobs:
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           source $HOME/.cargo/env
           cargo install tauri-cli
-
-      - name: Cache Rust dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo
-            ~/.rustup
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
 
       - name: Build Tauri App
         run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build
