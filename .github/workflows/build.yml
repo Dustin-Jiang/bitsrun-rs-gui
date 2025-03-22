@@ -24,11 +24,8 @@ jobs:
           source $HOME/.cargo/env
           cargo install tauri-cli
 
-      - name: Build Frontend
-        run: ~/.bun/bin/bun build
-
       - name: Build Tauri App
-        run: cargo tauri build
+        run: ~/.bun/bin/bun run tauri build
 
       - name: Upload macOS Artifact
         uses: actions/upload-artifact@v4.6.2
@@ -62,11 +59,8 @@ jobs:
           rustup target add x86_64-pc-windows-msvc
           cargo install tauri-cli
 
-      - name: Build Frontend
-        run: C:\Users\runneradmin\.bun\bin\bun.exe build
-
       - name: Build Tauri App
-        run: cargo tauri build
+        run: C:\Users\runneradmin\.bun\bin\bun.exe run tauri build
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4.6.2
@@ -96,11 +90,8 @@ jobs:
           source $HOME/.cargo/env
           cargo install tauri-cli
 
-      - name: Build Frontend
-        run: ~/.bun/bin/bun build
-
       - name: Build Tauri App
-        run: cargo tauri build
+        run: ~/.bun/bin/bun run tauri build
 
       - name: Show All Artifacts
         run: ls -R target/release/bundle
