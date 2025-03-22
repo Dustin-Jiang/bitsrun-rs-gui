@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v4.6.2
         with:
           name: macos-app
-          path: target/release/bundle/darwin/*.dmg
+          path: target/release/bundle/dmg/*.dmg
 
   build-windows:
     runs-on: windows-latest
@@ -68,7 +68,9 @@ jobs:
         shell: pwsh
         run: |
           $env:Path += ";C:\Users\runneradmin\.bun\bin"
-          [Environment]::SetEnvironmentVariable("Path", $env:Path, "User")
+          [Environment]::SetEnvironmentVariable("Path", $env:Path, "System")
+          Write-Output "Current PATH: $env:PATH"
+          Get-Command bun -ErrorAction Stop
 
       - name: Install Dependencies
         shell: cmd
@@ -86,7 +88,10 @@ jobs:
 
       - name: Build Tauri App
         shell: pwsh
-        run: Set-Alias bun C:\Users\runneradmin\.bun\bin\bun.exe && bun run tauri build
+        run: |
+          $env:Path += ";C:\Users\runneradmin\.bun\bin"
+          Write-Output "Updated PATH: $env:Path"
+          bun run tauri build
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4.6.2
