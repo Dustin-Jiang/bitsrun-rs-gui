@@ -15,6 +15,9 @@ jobs:
       - name: Install Bun
         run: curl -fsSL https://bun.sh/install | bash
 
+      - name: Add Bun to PATH
+        run: echo "export PATH=$HOME/.bun/bin:$PATH" >> $GITHUB_ENV
+
       - name: Install Project Dependencies
         run: ~/.bun/bin/bun install
 
@@ -44,6 +47,12 @@ jobs:
         run: |
           Invoke-WebRequest -Uri https://bun.sh/install.ps1 -OutFile install.ps1
           .\install.ps1
+
+      - name: Add Bun to PATH
+        shell: pwsh
+        run: |
+          $env:Path += ";C:\Users\runneradmin\.bun\bin"
+          [Environment]::SetEnvironmentVariable("Path", $env:Path, "User")
 
       - name: Install Dependencies
         shell: cmd
@@ -80,6 +89,9 @@ jobs:
 
       - name: Install Bun
         run: curl -fsSL https://bun.sh/install | bash
+
+      - name: Add Bun to PATH
+        run: echo "export PATH=$HOME/.bun/bin:$PATH" >> $GITHUB_ENV
 
       - name: Install Project Dependencies
         run: ~/.bun/bin/bun install
