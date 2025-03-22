@@ -371,6 +371,7 @@ dependencies = [
 [[package]]
 name = "bitsrun"
 version = "0.5.0"
+source = "git+https://github.com/Dustin-Jiang/bitsrun-rs?branch=as-lib#859e98198378844336f871acae5366499380fca5"
 dependencies = [
  "anyhow",
  "base64 0.21.7",
