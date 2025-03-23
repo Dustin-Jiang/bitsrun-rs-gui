@@ -124,6 +124,25 @@ jobs:
             libglib2.0-dev \
             libappindicator3-dev
 
+      - name: Install AppImage Dependencies
+        run: |
+          sudo apt-get install -y \
+            desktop-file-utils \       # .desktop 文件验证工具
+            libgdk-pixbuf2.0-dev \     # 图像处理库
+            libfuse2 \                #USE 文件系统支持 (必要)
+            squashfs-tools            # AppImage 打包工具
+
+      - name: Fix FUSE Permissions
+        run: |
+          sudo sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
+          echo "export LINUXDEPLOY_FUSE=1 >> $GITHUB_ENV
+
+      - name: Force Download linuxdeploy
+        run: |
+          wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          chmod +x linuxdeploy-x86_64.AppImage
+          sudo mv linuxdeploy-x86_64.AppImage /usr/local/bin/linuxdeploy
+
       - name: Install Bun
         run: curl -fsSL https://bun.sh/install | bash
 
@@ -140,6 +159,9 @@ jobs:
           cargo install tauri-cli
 
       - name: Build Tauri App
+        env:
+          LINUXDEPLOY_SKIP_APPSTREAM_VALIDATION: 1
+          RUST_LOG: debug  # 启用详细日志
         run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build
 
       - name: Show All Artifacts
