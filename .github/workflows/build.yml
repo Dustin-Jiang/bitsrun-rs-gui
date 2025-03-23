@@ -97,7 +97,7 @@ jobs:
         uses: actions/upload-artifact@v4.6.2
         with:
           name: windows-app
-          path: target/release/bundle/windows/*.exe
+          path: src-tauri/target/release/bundle/windows/*.exe
 
   build-linux:
     runs-on: ubuntu-latest
@@ -116,9 +116,9 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y \
-            libwebkit2gtk-4.1-0 \
+            libwebkit2gtk-4.1-dev \
             libclang-dev \
-            libgtk-3-0 \
+            libgtk-3-dev \
             libglib2.0-dev \
             libappindicator3-1
 
@@ -147,4 +147,4 @@ jobs:
         uses: actions/upload-artifact@v4.6.2
         with:
           name: linux-app
-          path: target/release/bundle/tarball/*.tar.gz
+          path: src-tauri/target/release/bundle/tarball/*.tar.gz
