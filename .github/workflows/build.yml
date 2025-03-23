@@ -123,10 +123,10 @@ jobs:
             libgtk-3-dev \
             libglib2.0-dev \
             libappindicator3-dev \
-            desktop-file-utils \       # .desktop 文件验证工具
-            libgdk-pixbuf2.0-dev \     # 图像处理库
-            libfuse2 \                #USE 文件系统支持 (必要)
-            squashfs-tools            # AppImage 打包工具
+            desktop-file-utils \
+            libgdk-pixbuf2.0-dev \
+            libfuse2 \
+            squashfs-tools
 
       - name: Fix FUSE Permissions
         run: |
