@@ -165,7 +165,7 @@ jobs:
         run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build
 
       - name: Show All Artifacts
-        run: ls -R target/release/bundle
+        run: ls -R src-tauri/target/release/bundle
 
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4.6.2
