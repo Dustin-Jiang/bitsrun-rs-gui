@@ -164,8 +164,7 @@ jobs:
         env:
           LINUXDEPLOY_SKIP_APPSTREAM_VALIDATION: 1
           RUST_LOG: debug  # 启用详细日志
-          TARGET: x86_64-unknown-linux-musl
-        run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build
+        run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build -t x86_64-unknown-linux-musl
 
       - name: Show All Artifacts
         run: ls -R src-tauri/target/release/bundle
