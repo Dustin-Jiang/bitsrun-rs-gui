@@ -107,7 +107,12 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-latest
-    container: debian:buster-slim
+    container:
+      image: debian:buster-slim
+      options: --user root
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -153,7 +158,8 @@ jobs:
             unzip \
             build-essential \
             pkg-config \
-            libssl-dev
+            libssl-dev \
+            bash
 
       - name: Fix FUSE Permissions
         run: |
@@ -185,7 +191,8 @@ jobs:
         env:
           LINUXDEPLOY_SKIP_APPSTREAM_VALIDATION: 1
           RUST_LOG: debug
-        run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build
+          PATH: $HOME/.cargo/bin:$HOME/.bun/bin:$PATH
+        run: bun run tauri build
 
       - name: Show All Artifacts
         run: ls -R src-tauri/target/release/bundle
