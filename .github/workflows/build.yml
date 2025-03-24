@@ -150,6 +150,7 @@ jobs:
             curl \
             wget \
             git \
+            unzip \
             build-essential \
             pkg-config \
             libssl-dev
