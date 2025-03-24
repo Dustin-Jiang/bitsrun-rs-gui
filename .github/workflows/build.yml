@@ -201,6 +201,7 @@ jobs:
         env:
           LINUXDEPLOY_SKIP_APPSTREAM_VALIDATION: 1
           RUST_LOG: debug
+          PATH: /root/.cargo/bin:/root/.bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         run: bun run tauri build
 
       - name: Show All Artifacts
