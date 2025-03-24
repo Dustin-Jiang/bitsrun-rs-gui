@@ -130,7 +130,8 @@ jobs:
             desktop-file-utils \
             libgdk-pixbuf2.0-dev \
             libfuse2 \
-            squashfs-tools
+            squashfs-tools \
+            musl-tools
 
       - name: Fix FUSE Permissions
         run: |
@@ -156,12 +157,14 @@ jobs:
         run: |
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           source $HOME/.cargo/env
+          rustup target add x86_64-unknown-linux-musl
           cargo install tauri-cli
 
       - name: Build Tauri App
         env:
           LINUXDEPLOY_SKIP_APPSTREAM_VALIDATION: 1
           RUST_LOG: debug  # 启用详细日志
+          TARGET: x86_64-unknown-linux-musl
         run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build
 
       - name: Show All Artifacts
