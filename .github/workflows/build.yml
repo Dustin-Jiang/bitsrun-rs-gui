@@ -107,6 +107,7 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-latest
+    container: debian:buster-slim
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -115,13 +116,28 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ~/.cargo
+            /root/.cargo/registry
+            /root/.cargo/git
+            /root/.cargo/bin
+            /root/.cargo/.package-cache
             ./target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            /root/.bun/install/cache
+            /root/.bun/bin
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
 
       - name: Install Dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y \
+          apt-get update && apt-get install -y \
             libwebkit2gtk-4.1-dev \
             libclang-dev \
             libgtk-3-dev \
@@ -130,18 +146,24 @@ jobs:
             desktop-file-utils \
             libgdk-pixbuf2.0-dev \
             libfuse2 \
-            squashfs-tools
+            squashfs-tools \
+            curl \
+            wget \
+            git \
+            build-essential \
+            pkg-config \
+            libssl-dev
 
       - name: Fix FUSE Permissions
         run: |
-          sudo sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
+          echo "user_allow_other" > /etc/fuse.conf
           echo "export LINUXDEPLOY_FUSE=1" >> $GITHUB_ENV
 
       - name: Force Download linuxdeploy
         run: |
           wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
           chmod +x linuxdeploy-x86_64.AppImage
-          sudo mv linuxdeploy-x86_64.AppImage /usr/local/bin/linuxdeploy
+          mv linuxdeploy-x86_64.AppImage /usr/local/bin/linuxdeploy
 
       - name: Install Bun
         run: curl -fsSL https://bun.sh/install | bash
@@ -161,7 +183,7 @@ jobs:
       - name: Build Tauri App
         env:
           LINUXDEPLOY_SKIP_APPSTREAM_VALIDATION: 1
-          RUST_LOG: debug  # 启用详细日志
+          RUST_LOG: debug
         run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build
 
       - name: Show All Artifacts
