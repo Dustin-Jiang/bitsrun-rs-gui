@@ -112,8 +112,16 @@ jobs:
       options: --user root
     defaults:
       run:
-        shell: bash
+        shell: sh
     steps:
+      - name: Install bash
+        run: apt-get update && apt-get install -y bash
+
+      - name: Switch to bash
+        run: |
+          echo "export SHELL=/bin/bash" >> $GITHUB_ENV
+          echo "export BASH=/bin/bash" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v4.2.2
 
