@@ -171,4 +171,6 @@ jobs:
         uses: actions/upload-artifact@v4.6.2
         with:
           name: linux-app
-          path: src-tauri/target/release/bundle/tarball/*.tar.gz
+          path: |
+            src-tauri/target/release/bundle/rpm/*.rpm
+            src-tauri/target/release/bundle/deb/*.deb
