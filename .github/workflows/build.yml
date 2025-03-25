@@ -165,7 +165,7 @@ jobs:
       - name: Setup Rust Environment
         run: |
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          source $HOME/.cargo/env
+          . $HOME/.cargo/env
           cargo install tauri-cli
 
       - name: Build Tauri App
