@@ -178,7 +178,7 @@ jobs:
         env:
           LINUXDEPLOY_SKIP_APPSTREAM_VALIDATION: 1
           RUST_LOG: debug
-        run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build
+        run: export PATH=$HOME/.bun/bin:$PATH && bun run tauri build --verbose
 
       - name: Show All Artifacts
         run: ls -R src-tauri/target/release/bundle
