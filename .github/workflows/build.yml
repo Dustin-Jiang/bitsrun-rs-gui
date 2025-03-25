@@ -112,12 +112,27 @@ jobs:
       CARGO_HOME: /userhome/.cargo
       PATH: /userhome/.cargo/bin:$PATH
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4.2.2
-
       - name: Setup User Directories
         run: mkdir -p /userhome/.cargo && chmod 777 /userhome/.cargo
 
+      - name: Update and Install Base System Dependencies
+        run: |
+          apt-get update && apt-get install -y \
+            build-essential \
+            curl \
+            wget \
+            ca-certificates \
+            gnupg \
+            tar \
+            libwebkit2gtk-4.0-dev \
+            libgtk-3-dev \
+            libglib2.0-dev \
+            libappindicator3-dev \
+            desktop-file-utils
+
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        
       - name: Cache Rust Dependencies
         uses: actions/cache@v4
         with:
@@ -125,16 +140,6 @@ jobs:
             /userhome/.cargo
             ./target
           key: ${{ runner.os }}-debian10-cargo-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Update and Install Base System Dependencies
-        run: |
-          apt-get update && apt-get install -y --no-install-recommends \
-            build-essential curl wget ca-certificates gnupg apt-transport-https \
-            libwebkit2gtk-4.0-dev \
-            libgtk-3-dev \
-            libglib2.0-dev \
-            libappindicator3-dev \
-            desktop-file-utils
 
       - name: Install Bun
         run: |
