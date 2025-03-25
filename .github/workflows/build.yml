@@ -115,6 +115,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.2.2
 
+      - name: Setup User Directories
+        run: mkdir -p /userhome/.cargo && chmod 777 /userhome/.cargo
+
       - name: Cache Rust Dependencies
         uses: actions/cache@v4
         with:
