@@ -168,15 +168,11 @@ jobs:
           . $HOME/.cargo/env
           cargo install tauri-cli
       
-      - uses: shaowenchen/debugger-action@v1
-        name: debugger
-        timeout-minutes: 30
+      - name: debugger
         continue-on-error: true
-        with:
-          frp_server_addr: ${{ secrets.FRP_SERVER_ADDR }}
-          frp_server_port: ${{ secrets.FRP_SERVER_PORT }}
-          frp_token: ${{ secrets.FRP_TOKEN }}
-          ssh_port: ${{ secrets.SSH_PORT }}
+        run: |
+          pwd
+          ls -R ./
 
       - name: Build Tauri App
         env:
