@@ -171,8 +171,8 @@ jobs:
       - name: debugger
         continue-on-error: true
         run: |
-          pwd
-          ls -R ./
+          export PATH=$HOME/.bun/bin:$PATH
+          bun run tauri info
 
       - name: Build Tauri App
         env:
