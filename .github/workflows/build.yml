@@ -129,8 +129,10 @@ jobs:
             libappindicator3-dev \
             desktop-file-utils \
             libgdk-pixbuf2.0-dev \
-            # 添加静态链接所需的 glibc 和相关库
-            libc6-dev libc6-static libgcc-static libstdc++-static
+            libc6-dev \
+            libc6-static \
+            libgcc-static \
+            libstdc++-static
 
       - name: Install Bun
         run: curl -fsSL https://bun.sh/install | bash
