@@ -5,7 +5,7 @@
   "identifier": "top.tsukino.bitsrun-rs-gui",
   "build": {
     "beforeDevCommand": "bun run dev",
-    "devUrl": "http://localhost:1420",
+    "devUrl": "http://localhost:8420",
     "beforeBuildCommand": "bun run build",
     "frontendDist": "../dist"
   },

@@ -3,12 +3,14 @@ import { ref, provide, computed, onMounted } from "vue";
 import { getNetStat } from "./model/netstat";
 import I18n, { type Locale } from "./model/i18n";
 import store, { NetworkStatus } from "./store";
-import LoginForm from "./components/LoginForm.vue";
 import OnlineView from "./views/OnlineView.vue";
 import { init } from "./model/bitsrun";
+import LoginView from "./views/LoginView.vue";
 
 const locale = ref<Locale>("zh_CN");
 const i18n = I18n.getInstance();
+const errorMsg = ref("");
+
 computed(() => {
   i18n.locale = locale.value;
 })
@@ -24,6 +26,7 @@ async function initialize() {
     store.netstat = state;
     store.status = NetworkStatus.ONLINE;
   }).catch((state) => {
+    errorMsg.value = JSON.stringify(state, null, 2);
     if (state.error === "not_online_error") {
       store.status = NetworkStatus.OFFLINE;
     } else {
@@ -42,8 +45,11 @@ onMounted(async () => {
 <template>
   <main class="container">
     <h1>{{ i18n.t("app_name") }}</h1>
-    <LoginForm v-if="store.status === NetworkStatus.OFFLINE" />
+    <LoginView v-if="store.status === NetworkStatus.OFFLINE" />
     <OnlineView v-if="store.status === NetworkStatus.ONLINE" />
+    <div v-else>
+      {{ errorMsg }}
+    </div>
   </main>
 </template>
 
@@ -63,9 +69,11 @@ body {
   font-weight: 400;
 
   color: #0f0f0f;
-  background-color: #f6f6f6;
+  background-color: var(--background-color);
 
+  --background-color: #f6f6f6;
   --primary-color: #396cd8;
+  --modal-backdrop-color: #eeeeeec0;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -128,7 +136,8 @@ button {
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
-    background-color: #2f2f2f;
+    --background-color: #2f2f2f;
+    --modal-backdrop-color: #000000b0;
   }
 
   input[type="text"],

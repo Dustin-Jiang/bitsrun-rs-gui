@@ -3,6 +3,9 @@ import store, { NetworkStatus } from "../store";
 import { ApiResp } from "./api";
 
 const init = async (username: string, password: string) => {
+  // 传递代理设置
+  await invoke("set_proxy", { proxy: store.settings.proxy });
+
   await invoke("init_bitsrun", { config: {
     username: username,
     password: password

@@ -1,17 +1,19 @@
 <template>
   <div class="container">
-    <div v-if="props.disabled" class="disabled"></div>
+    <Disable :show="props.disabled" />
     <span>
       <slot />
     </span>
-    <label for="toggle" class="root" :disabled="props.disabled">
-      <input type="checkbox" id="toggle" v-model="model" :disabled="props.disabled">
+    <label :for="id" class="root" :disabled="props.disabled">
+      <input type="checkbox" :id="id" v-model="model" :disabled="props.disabled">
       <span></span>
     </label>
   </div>
 </template>
 
 <script lang="ts" setup>
+import Disable from './Disable.vue';
+
 const model = defineModel({ type: Boolean })
 const props = defineProps({
   disabled: {
@@ -19,6 +21,7 @@ const props = defineProps({
     default: false
   }
 })
+const id = `toggle-${Math.random().toString(36).substr(2, 9)}`
 </script>
 
 <style scoped>
@@ -43,7 +46,7 @@ const props = defineProps({
   left: 0px;
   width: 100%;
   height: 100%;
-  background-color: #eeeeeec0;
+  background-color: var(--modal-backdrop-color);
   border-radius: 8px;
   z-index: 100;
 }
@@ -125,10 +128,6 @@ input[type="checkbox"]:checked:active + span::after {
   .container {
     color: #ffffff;
     background-color: #0f0f0f98;
-  }
-
-  .disabled {
-    background-color: #000000b0;
   }
 }
 </style>
