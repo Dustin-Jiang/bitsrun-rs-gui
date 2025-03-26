@@ -130,6 +130,15 @@ jobs:
             desktop-file-utils \
             libgdk-pixbuf2.0-dev \
             libc6-dev \
+            libpangocairo-1.0-dev \
+            libpango-1.0-dev \
+            libharfbuzz-dev \
+            libatk1.0-dev \
+            libcairo2-dev \
+            libjavascriptcoregtk-4.1-dev \
+            libsoup2.4-dev \
+            libwebkit2gtk-4.1-37 \
+            libgtk-3-0
 
       - name: Install Bun
         run: curl -fsSL https://bun.sh/install | bash
@@ -152,7 +161,6 @@ jobs:
         env:
           LINUXDEPLOY_SKIP_APPSTREAM_VALIDATION: 1
           RUST_LOG: debug
-          # 设置静态链接标志（使用 glibc）
           RUSTFLAGS: "-C target-feature=+crt-static"
         run: |
           export PATH=$HOME/.bun/bin:$PATH
