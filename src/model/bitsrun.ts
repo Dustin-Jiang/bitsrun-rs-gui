@@ -1,21 +1,38 @@
 import { invoke } from "@tauri-apps/api/core";
 import store, { NetworkStatus } from "../store";
 import { ApiResp } from "./api";
+import { ProxySettings } from "../store/settings";
+
+const setProxy = async (proxy: ProxySettings) => {
+  await invoke("set_proxy", { proxy });
+}
 
 const init = async (username: string, password: string) => {
   // 传递代理设置
-  await invoke("set_proxy", { proxy: store.settings.proxy });
+  setProxy(store.settings.proxy);
 
-  await invoke("init_bitsrun", { config: {
-    username: username,
-    password: password
-  } });
+  try {
+    await invoke("init_bitsrun", { config: {
+      username: username,
+      password: password
+    } });
+  }
+  catch(e) {
+    throw e;
+  }
   store.status = NetworkStatus.INIT;
 }
 
 const login = async (username: string, password: string) => {
   // 初始化 bitsrun
-  await init(username, password);
+  try {
+    await init(username, password);
+  }
+  catch(e) {
+    store.status = NetworkStatus.ERROR;
+    store.errorMsg = e as string;
+    return;
+  }
 
   // 登录
   store.status = NetworkStatus.PENDING;
@@ -27,4 +44,8 @@ const login = async (username: string, password: string) => {
   }
 }
 
-export { init, login };
+export {
+  init,
+  login,
+  setProxy,
+};

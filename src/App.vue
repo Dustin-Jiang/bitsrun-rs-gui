@@ -6,10 +6,11 @@ import store, { NetworkStatus } from "./store";
 import OnlineView from "./views/OnlineView.vue";
 import { init } from "./model/bitsrun";
 import LoginView from "./views/LoginView.vue";
+import { ApiResp, SrunLoginState } from "./model/api";
+import ErrorView from "./views/ErrorView.vue";
 
 const locale = ref<Locale>("zh_CN");
 const i18n = I18n.getInstance();
-const errorMsg = ref("");
 
 computed(() => {
   i18n.locale = locale.value;
@@ -24,13 +25,19 @@ async function initialize() {
       store.initialized = true;
     }
     store.netstat = state;
-    store.status = NetworkStatus.ONLINE;
-  }).catch((state) => {
-    errorMsg.value = JSON.stringify(state, null, 2);
-    if (state.error === "not_online_error") {
-      store.status = NetworkStatus.OFFLINE;
-    } else {
+    // store.status = NetworkStatus.ONLINE;
+    store.status = NetworkStatus.OFFLINE;
+  }).catch((status: ApiResp<SrunLoginState>) => {
+    store.errorMsg = JSON.stringify(status, null, 2);
+    if (status.success == false) {
       store.status = NetworkStatus.ERROR;
+    }
+    else {
+      if (status.message.error === "not_online_error") {
+        store.status = NetworkStatus.OFFLINE;
+      } else {
+        store.status = NetworkStatus.ERROR;
+      }
     }
   });
 }
@@ -46,10 +53,8 @@ onMounted(async () => {
   <main class="container">
     <h1>{{ i18n.t("app_name") }}</h1>
     <LoginView v-if="store.status === NetworkStatus.OFFLINE" />
-    <OnlineView v-if="store.status === NetworkStatus.ONLINE" />
-    <div v-else>
-      {{ errorMsg }}
-    </div>
+    <OnlineView v-else-if="store.status === NetworkStatus.ONLINE" />
+    <ErrorView v-else />
   </main>
 </template>
 
@@ -73,6 +78,7 @@ body {
 
   --background-color: #f6f6f6;
   --primary-color: #396cd8;
+  --error-color: #dd0000ca;
   --modal-backdrop-color: #eeeeeec0;
 
   font-synthesis: none;

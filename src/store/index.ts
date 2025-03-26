@@ -20,6 +20,7 @@ interface Store {
   status: NetworkStatus;
   netstat: SrunLoginState;
   settings: Settings;
+  errorMsg: string;
 }
 
 const localStore = JSON.parse(localStorage.getItem("store") ?? "{}") as Store;
@@ -34,6 +35,7 @@ const store = reactive<Store>({
   keepOnline: localStore.keepOnline ?? false,
 
   // 不需要持久化的数据
+  errorMsg: "",
   initialized: false,
   status: NetworkStatus.INIT,
   netstat: {} as SrunLoginState,

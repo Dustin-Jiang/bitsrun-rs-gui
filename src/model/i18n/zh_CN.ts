@@ -18,6 +18,10 @@ const zh_CN = {
   system_proxy: "使用系统代理",
   http_proxy: "HTTP代理",
   https_proxy: "HTTPS代理",
+
+  error: "错误",
+  retry: "重试",
+  cancel: "取消",
 };
 
 export default zh_CN;
