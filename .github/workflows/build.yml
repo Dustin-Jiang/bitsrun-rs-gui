@@ -129,16 +129,7 @@ jobs:
             libappindicator3-dev \
             desktop-file-utils \
             libgdk-pixbuf2.0-dev \
-            libc6-dev \
-            libpangocairo-1.0-dev \
-            libpango-1.0-dev \
-            libharfbuzz-dev \
-            libatk1.0-dev \
-            libcairo2-dev \
-            libjavascriptcoregtk-4.1-dev \
-            libsoup2.4-dev \
-            libwebkit2gtk-4.1-37 \
-            libgtk-3-0
+            libc6-dev
 
       - name: Install Bun
         run: curl -fsSL https://bun.sh/install | bash
