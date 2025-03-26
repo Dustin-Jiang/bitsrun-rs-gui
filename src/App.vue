@@ -25,8 +25,7 @@ async function initialize() {
       store.initialized = true;
     }
     store.netstat = state;
-    // store.status = NetworkStatus.ONLINE;
-    store.status = NetworkStatus.OFFLINE;
+    store.status = NetworkStatus.ONLINE;
   }).catch((status: ApiResp<SrunLoginState>) => {
     store.errorMsg = JSON.stringify(status, null, 2);
     if (status.success == false) {
