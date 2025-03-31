@@ -132,7 +132,14 @@ jobs:
             libappindicator3-dev \
             desktop-file-utils \
             libgdk-pixbuf2.0-dev \
-            libc6-dev
+            libc6-dev \
+            curl \
+            wget \
+            git \
+            unzip \
+            build-essential \
+            pkg-config \
+            libssl-dev
 
       - name: Install Bun
         run: curl -fsSL https://bun.sh/install | bash
