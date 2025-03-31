@@ -122,7 +122,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y \
+          apt-get update && apt-get install -y \
             libwebkit2gtk-4.1-dev \
             libclang-dev \
             libgtk-3-dev \
