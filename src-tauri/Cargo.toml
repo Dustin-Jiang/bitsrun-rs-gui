@@ -26,3 +26,4 @@ bitsrun = { git = "https://github.com/Dustin-Jiang/bitsrun-rs", branch = "as-lib
 tokio = "1.44.1"
 reqwest = "0.11.27"
 log = "0.4.26"
+tauri-plugin-process = "2"

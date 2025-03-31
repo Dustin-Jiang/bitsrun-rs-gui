@@ -1,5 +1,3 @@
-import { sys } from "typescript";
-
 const zh_CN = {
   login: "登录",
   logout: "下线",
@@ -18,6 +16,9 @@ const zh_CN = {
   system_proxy: "使用系统代理",
   http_proxy: "HTTP代理",
   https_proxy: "HTTPS代理",
+
+  show_window: "显示窗口",
+  quit: "退出",
 
   error: "错误",
   retry: "重试",

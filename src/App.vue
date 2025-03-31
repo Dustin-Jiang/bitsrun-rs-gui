@@ -8,9 +8,11 @@ import { init } from "./model/bitsrun";
 import LoginView from "./views/LoginView.vue";
 import { ApiResp, SrunLoginState } from "./model/api";
 import ErrorView from "./views/ErrorView.vue";
+import Tray from "./model/tray";
 
 const locale = ref<Locale>("zh_CN");
 const i18n = I18n.getInstance();
+const tray = Tray.getInstance();
 
 computed(() => {
   i18n.locale = locale.value;

@@ -6,7 +6,6 @@ use tauri::State;
 use tokio::sync::Mutex;
 
 mod api;
-mod tray;
 mod settings;
 
 use settings::{Settings, Proxy};
@@ -77,10 +76,6 @@ async fn check_login_state(state: State<'_, BitsrunState>) -> Result<RunResult, 
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .setup(|app| {
-            tray::create_tray(app)?;
-            Ok(())
-        })
         .manage(BitsrunState {
             client: Mutex::new(None),
             settings: Mutex::new(Some(Settings::new())),
