@@ -121,6 +121,8 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install Dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
           apt-get update && apt-get install -y \
             libwebkit2gtk-4.0-dev \
